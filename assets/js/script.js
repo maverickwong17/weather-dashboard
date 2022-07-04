@@ -54,7 +54,6 @@ function getForecast(){
 }
 
 
-
 /*
   - search 
         -show history
