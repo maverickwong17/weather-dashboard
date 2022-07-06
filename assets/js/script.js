@@ -1,22 +1,12 @@
 // My open weather api key
 var APIKey = "785f7f0c00b9b5585e2d6893363b0aa5"
 
-var searchInput = document.querySelector('#search')
-var buttonInput = document.querySelector('button')
-var city = ""
-
-buttonInput.addEventListener('click', function(){
-    console.log("click")
-    city = searchInput.value
-    console.log(city)
-    getGeocode()
-} 
-)
-
-
 var lat 
 var lon 
 
+var cityEl = document.querySelector('#city')
+
+//pull geocode data
 function getGeocode() {
     var geocode = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`
 fetch(geocode)
@@ -25,9 +15,9 @@ fetch(geocode)
   })
   .then(function (data) {
     console.log(city)
-    console.log(geocode)
     console.log("geocode data")
     console.log(data);
+    cityEl.textContent = data[0].name 
     lat = data[0].lat;
     lon = data[0].lon;
     console.log(lat)  
@@ -36,7 +26,7 @@ fetch(geocode)
   })
 }
 
-// //pulls current temp, humidity, windspeed, uv index
+// //pulls one call api
 function getWeather(){
   var currentWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}`
   fetch(currentWeather)
@@ -44,33 +34,59 @@ function getWeather(){
       return response.json();
     })
     .then(function (data) {
-      console.log("current weather")
-      console.log(data);
-      console.log("temp : " + data.current.temp);
-      console.log("humidity : " + data.current.humidity)
-      console.log("windspeed : " + data.current.wind_speed)
-      console.log("uvindex : " + data.current.uvi)
-      console.log("Weather : " + data.current.weather[0].main)
-      getForecast(data)
+        currentEl(data)
+        getForecast(data)
     });
   }
 
-// 5 day 
-function getForecast(data){
-  for(let i = 1; i < 6; i++){
-    console.log("Day " + i)
-    console.log("dt : " + data.daily[i].dt)
-    console.log("Date: " + moment(data.daily[i].dt).format('dddd, MMMM Do YYYY, h:mm:ss a'))
-    console.log(data.daily[i].weather[0].main)
-    console.log("Temp : " + data.daily[i].temp.day)
-    console.log("Humidity : " + data.daily[i].humidity)
-  }
+
+var dateEl= document.querySelector('#date')
+var temp = document.querySelector('#temp')
+var humidity = document.querySelector('#humidity')
+var windEl = document.querySelector('#wind')
+var uvi = document.querySelector('#uvi')
+var currentIcon = document.querySelector('#currentIcon')
+
+//current weather elements
+function currentEl(data){
+    console.log("current weather")
+    console.log(data);
+    dateEl.textContent = moment().format("L")
+    temp.textContent = "Temperature: " + data.current.temp + "F";
+    humidity.textContent = "Humidity: " + data.current.humidity + "%";
+    windEl.textContent = "Wind Speed: " + data.current.wind_speed + " MPH";
+    uvi.textContent ="UV Index: " + data.current.uvi;
+    currentIcon.setAttribute("src", 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png')
+    currentIcon.setAttribute("alt", 'Current Weather Icon')
 }
 
+// 5 day 
+function getForecast(data){
+    for(let i = 1; i < 6; i++){
+      console.log("Day " + i)
+      console.log("dt : " + data.daily[i].dt)
+      console.log("Date: " + moment(data.daily[i].dt*1000).format('dddd, MMMM Do YYYY, h:mm:ss a'))
+      console.log(data.daily[i].weather[0].main)
+      console.log("Temp : " + data.daily[i].temp.day)
+      console.log("Humidity : " + data.daily[i].humidity)
+    }
+  }
 
+var searchInput = document.querySelector('#search')
+var buttonInput = document.querySelector('button')
+var city = ""
+
+buttonInput.addEventListener('click', function(){
+    city = searchInput.value
+    if(city === ""){
+        console.log('input required')
+    }
+    getGeocode()
+} 
+)
 /*
   - search 
-        -user input
+        ok    -user input
         -show history
         -add to history
     - current city , name date, icon for weather conditions
