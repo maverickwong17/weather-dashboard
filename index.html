@@ -7,14 +7,85 @@
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
-    <!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+    
 </head>
 
 <body>
-    <header>
+    <header class="text-center text-light bg-dark">
         <h1>Weather Dashboard</h1>
     </header>
-
+    <div class="container w-100">
+        <div class="row">
+          <div class="col-3">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="San Francisco">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item"></li>
+              </ul>
+          </div>
+          <div class="col-9">
+            <div class="jumbotron">
+                <h1 class="display-4">City Icon</h1>
+                <p class="lead">Date</p>
+                <p id="temp">Temp</p>
+                <p id="humidity">Humidity</p>
+                <p id="wind">Wind Speed</p>
+                <p id="uvi">UV Index</p>
+            </div> 
+            <div>
+                <p class="lead">5-Day Forecast:</p>
+                <div class="container d-flex">
+                    <div id="card1" class="card mr-3" style="width: 10rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Date</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Icon</h6>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div id="card2" class="card mr-3" style="width: 10rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Date</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Icon</h6>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div id="card3" class="card mr-3" style="width: 10rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Date</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Icon</h6>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div id="card4" class="card mr-3" style="width: 10rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Date</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Icon</h6>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div id="card5" class="card mr-3" style="width: 10rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Date</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Icon</h6>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>

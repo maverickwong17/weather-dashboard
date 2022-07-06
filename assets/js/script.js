@@ -1,10 +1,10 @@
 // My open weather api key
 var APIKey = "785f7f0c00b9b5585e2d6893363b0aa5"
 
-var city = 'London';
+var city = 'San Francisco';
 //todo take input from user
 
-var geocode = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=5&appid=' + APIKey
+var geocode = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${APIKey}`
 
 var lat 
 var lon 
@@ -21,14 +21,13 @@ fetch(geocode)
     lon = data[0].lon
     console.log(lat)  
     console.log(lon)
-    getCurrent()
-    getForecast()
+    getWeather()
   })
 }
 
 // //pulls current temp, humidity, windspeed, uv index
-function getCurrent(){
-  var currentWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat='+ lat + '&lon='+ lon + '&units=imperial' + /*'&exclude={part}'*/ '&appid=' + APIKey
+function getWeather(){
+  var currentWeather = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${APIKey}`
   fetch(currentWeather)
     .then(function (response) {
       return response.json();
@@ -40,27 +39,26 @@ function getCurrent(){
       console.log("humidity : " + data.current.humidity)
       console.log("windspeed : " + data.current.wind_speed)
       console.log("uvindex : " + data.current.uvi)
-      console.log("Weather : " + data.current.weather[0].description)
+      console.log("Weather : " + data.current.weather[0].main)
+      getForecast(data)
     });
   }
 
 // 5 day 
-function getForecast(){
-  var fiveDay = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=imperial'+ '&appid='+ APIKey
-  fetch(fiveDay)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log("5 day forecast")
-      console.log(data);
-    });
+function getForecast(data){
+  for(let i = 1; i < 6; i++){
+    console.log("Day " + i)
+    console.log("dt : " + data.daily[i].dt)
+    console.log(data.daily[i].weather[0].main)
+    console.log("Temp : " + data.daily[i].temp.day)
+    console.log("Humidity : " + data.daily[i].humidity)
+  }
 }
 
 
 /*
   - search 
-        -usser input
+        -user input
         -show history
         -add to history
     - current city , name date, icon for weather conditions
