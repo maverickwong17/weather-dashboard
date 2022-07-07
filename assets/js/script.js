@@ -56,26 +56,34 @@ function getGeocode(input) {
 
 //generate list of history
 function generateHistory(){
-    var inputArr = JSON.parse(localStorage.getItem("inputArr"))
-    var history = document.querySelector('#history')
+    var inputArr = [] 
+    inputArr = JSON.parse(localStorage.getItem("inputArr"))
     document.getElementById("history").innerHTML = "";
-    for(let j = 0; j < inputArr.length; j++){
-        var cityItem = document.createElement('li')
-        cityItem.textContent = inputArr[j]
-        cityItem.setAttribute("class", 'list-group-item')
-        history.appendChild(cityItem)
-    }
-}
+    if (inputArr === null){
+    }else{
+    var history = document.querySelector('#history')
+        for(let j = 0; j < inputArr.length; j++){
+            var cityItem = document.createElement('li')
+            cityItem.textContent = inputArr[j]
+            cityItem.setAttribute("class", 'list-group-item')
+            history.appendChild(cityItem)
+        }
+    }}
 
 //create history list
 function createHistory(input){
-    var inputArr = JSON.parse(localStorage.getItem("inputArr"))
-    if(!(inputArr.includes(input))){
+    var inputArr = []
+    inputArr = JSON.parse(localStorage.getItem("inputArr"))
+    if(inputArr == null){
+    inputArr = [] 
+    }
+    if (!(inputArr.includes(input))){
         inputArr.push(input)
         if(inputArr.length > 10){
             inputArr.shift()
         }
     }
+    console.log(inputArr)
     localStorage.setItem("inputArr", JSON.stringify(inputArr))
     generateHistory()
 }
@@ -89,7 +97,6 @@ function getWeather(){
       return response.json();
     })
     .then(function (data) {
-        console.log(data)
         currentEl(data)
         getForecast(data)
     });
