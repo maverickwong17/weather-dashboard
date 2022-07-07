@@ -19,6 +19,7 @@ buttonInput.addEventListener('click', function(){
 } 
 )
 
+//on click of history search
 var historyEl = document.querySelector('#history')
 historyEl.addEventListener('click', function(event){
     var element = event.target
@@ -88,6 +89,7 @@ function getWeather(){
       return response.json();
     })
     .then(function (data) {
+        console.log(data)
         currentEl(data)
         getForecast(data)
     });
@@ -152,7 +154,7 @@ function getForecast(data){
         //Humidity
         var cardHumid = document.createElement('p')
         cardHumid.setAttribute('class','card-text')
-        cardHumid.textContent = "Humidity : " + data.daily[i].temp.day + '%'
+        cardHumid.textContent = "Humidity : " + data.daily[i].humidity + '%'
         //append all bootstrap elements
         fiveDay.appendChild(cardDiv)
         // cardDiv.appendChild(cardBody)
@@ -162,10 +164,3 @@ function getForecast(data){
         cardDiv.appendChild(cardHumid)
     }
   }
-
-
-/*
-  - search 
-        -show history
-        -add to history
-*/
