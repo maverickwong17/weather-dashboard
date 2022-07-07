@@ -2,7 +2,7 @@
 
 ## Description 
 
-## [Deployed Website](https://github.com/microsoft/vscode).
+## [Deployed Website](https://maverickwong17.github.io/weather-dashboard/).
 
 This is an application that implements calling to several apis [Open Weather APIs](https://openweathermap.org/api/) to display weather information. It takes users input, and calls on the first result in their geocode api. We do this becasue the [one call API 1.0] uses the latitude and longitude coordinates and not the input information. This application also stores your last 10 searches locally and displays that information within a sidebar.
 
