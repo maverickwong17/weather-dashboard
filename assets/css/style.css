@@ -1,0 +1,24 @@
+#low span{
+    background-color: lightgreen;
+    padding: 3px;
+}
+
+#moderate span{
+    background-color: yellow;
+    padding: 3px;
+}
+
+#high span{
+    background-color: orange;
+    padding: 3px;
+}
+
+#very-high span{
+    background-color: red;
+    padding: 3px;
+}
+
+#extreme span{
+    background-color: purple;
+    padding: 3px;
+}
