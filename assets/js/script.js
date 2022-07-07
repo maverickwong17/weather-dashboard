@@ -8,34 +8,77 @@ var searchInput = document.querySelector('#search')
 var buttonInput = document.querySelector('button')
 var city = ""
 
+//on click of search
 buttonInput.addEventListener('click', function(){
     city = searchInput.value
     if(city === ""){
         console.log('input required')
         return
     }
-
-    //todo add user history
-    getGeocode()
+    getGeocode(city)
 } 
 )
+
+var historyEl = document.querySelector('#history')
+historyEl.addEventListener('click', function(event){
+    var element = event.target
+    if (element.matches("li")){
+        var selected = (element.innerHTML)
+        getGeocode(selected)
+    }
+})
+
+// on page startup
+function init(){
+    generateHistory()
+}
+init()
 
 var lat 
 var lon 
 //pull geocode data
-function getGeocode() {
-    var geocode = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`
-fetch(geocode)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    cityEl.textContent = data[0].name 
-    lat = data[0].lat;
-    lon = data[0].lon;
-    getWeather()    
-  })
+function getGeocode(input) {
+    var geocode = `https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=1&appid=${APIKey}`
+    fetch(geocode)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        cityEl.textContent = data[0].name 
+        lat = data[0].lat;
+        lon = data[0].lon;
+        createHistory(data[0].name)
+        getWeather()    
+    })
 }
+
+
+//generate list of history
+function generateHistory(){
+    var inputArr = JSON.parse(localStorage.getItem("inputArr"))
+    var history = document.querySelector('#history')
+    document.getElementById("history").innerHTML = "";
+    for(let j = 0; j < inputArr.length; j++){
+        var cityItem = document.createElement('li')
+        cityItem.textContent = inputArr[j]
+        cityItem.setAttribute("class", 'list-group-item')
+        history.appendChild(cityItem)
+    }
+}
+
+//create history list
+function createHistory(input){
+    var inputArr = JSON.parse(localStorage.getItem("inputArr"))
+    if(!(inputArr.includes(input))){
+        inputArr.push(input)
+        if(inputArr.length > 10){
+            inputArr.shift()
+        }
+    }
+    localStorage.setItem("inputArr", JSON.stringify(inputArr))
+    generateHistory()
+}
+
 
 // //pulls one call api
 function getWeather(){
@@ -64,7 +107,7 @@ function currentEl(data){
     temp.textContent = "Temperature: " + data.current.temp + "F";
     humidity.textContent = "Humidity: " + data.current.humidity + "%";
     windEl.textContent = "Wind Speed: " + data.current.wind_speed + " MPH";
-    currentIcon.setAttribute("src", 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png')
+    currentIcon.setAttribute("src", 'https://openweathermap.org/img/wn/' + data.current.weather[0].icon + '.png')
     currentIcon.setAttribute("alt", 'Current Weather Icon')
     uvi.innerHTML ="UV Index: " + "<span>" + data.current.uvi + "</span>";
     if (data.current.uvi <= 2){
